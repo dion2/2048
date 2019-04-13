@@ -44,27 +44,27 @@
         });
     });
     $(document).keydown(function(event) {
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         switch (event.keyCode) {
             case 37:
                 // alert('方向键-左');
-                move_left();
-                set_new_values();
+                var chk = move_left();
+                set_new_values(chk);
                 break;
             case 38:
                 // alert('方向键-上');
-                move_top();
-                set_new_values();
+                var chk = move_top();
+                set_new_values(chk);
                 break;
             case 39:
                 // alert('方向键-右');
-                move_right();
-                set_new_values();
+                var chk = move_right();
+                set_new_values(chk);
                 break;
             case 40:
                 // alert('方向键-下');
-                move_down();
-                set_new_values();
+                var chk = move_down();
+                set_new_values(chk);
                 break;
         };
         return false;
@@ -72,13 +72,16 @@
 
 
     function move_right() {
+        var chk = 1;
         for (row = 0; row <= 4; row++) {
             for (t = 4; t >= 0; t--) {
                 for (i = (t - 1); i >= 0; i--) {
                     if (data_arr[row][t] == data_arr[row][i]) {
                         data_arr[row][t] = data_arr[row][t] + data_arr[row][i];
                         data_arr[row][i] = 0;
-                        chk = 0;
+                        if (data_arr[row][t] != 0 && chk == 1) {
+                            chk = 0;
+                        }
                     } else if (data_arr[row][t] == 0) {
                         data_arr[row][t] = data_arr[row][t] + data_arr[row][i];
                         data_arr[row][i] = 0;
@@ -89,16 +92,20 @@
                 }
             }
         }
+        return chk;
     }
 
     function move_left() {
+        var chk = 1;
         for (row = 0; row <= 4; row++) {
             for (t = 0; t <= 4; t++) {
                 for (i = (t + 1); i <= 4; i++) {
                     if (data_arr[row][t] == data_arr[row][i]) {
                         data_arr[row][t] = data_arr[row][t] + data_arr[row][i];
                         data_arr[row][i] = 0;
-                        chk = 0;
+                        if (data_arr[row][t] != 0 && chk == 1) {
+                            chk = 0;
+                        }
                     } else if (data_arr[row][t] == 0) {
                         data_arr[row][t] = data_arr[row][t] + data_arr[row][i];
                         data_arr[row][i] = 0;
@@ -109,9 +116,11 @@
                 }
             }
         }
+        return chk;
     }
 
     function move_top() {
+        var chk = 1;
         for (col = 0; col <= 4; col++) {
             for (t = 0; t <= 4; t++) {
                 for (i = (t + 1); i <= 4; i++) {
@@ -119,7 +128,9 @@
                     if (data_arr[t][col] == data_arr[i][col]) {
                         data_arr[t][col] = data_arr[t][col] + data_arr[i][col];
                         data_arr[i][col] = 0;
-                        chk = 0;
+                        if (data_arr[t][col] != 0 && chk == 1) {
+                            chk = 0;
+                        }
                     } else if (data_arr[t][col] == 0) {
                         data_arr[t][col] = data_arr[t][col] + data_arr[i][col];
                         data_arr[i][col] = 0;
@@ -130,16 +141,21 @@
                 }
             }
         }
+        return chk;
     }
 
     function move_down() {
+        var chk = 1;
         for (col = 0; col <= 4; col++) {
             for (t = 4; t >= 0; t--) {
                 for (i = (t - 1); i >= 0; i--) {
                     if (data_arr[t][col] == data_arr[i][col]) {
                         data_arr[t][col] = data_arr[t][col] + data_arr[i][col];
                         data_arr[i][col] = 0;
-                        chk = 0;
+                        if (data_arr[t][col] != 0 && chk == 1) {
+                            chk = 0;
+                        }
+
                     } else if (data_arr[t][col] == 0) {
                         data_arr[t][col] = data_arr[t][col] + data_arr[i][col];
                         data_arr[i][col] = 0;
@@ -151,6 +167,7 @@
             }
 
         }
+        return chk;
     }
 
 
@@ -165,7 +182,7 @@
         var new_values = create_rand_values();
         var new_array = Array();
         $.each(data_arr, function(key, value) {
-            console.log(value);
+            // console.log(value);
             if (value == 0) {
                 new_array.push(key);
             }
@@ -182,11 +199,12 @@
 
     }
 
-    function set_new_values() {
+    function set_new_values(chk) {
+        console.log(chk);
         if (chk == 0) {
             rand_set_values();
         }
-        chk = 1;
+
 
         $("#col_1_1").html(data_arr[0][0]);
         $("#col_1_2").html(data_arr[0][1]);
